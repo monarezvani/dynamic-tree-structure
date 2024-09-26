@@ -5,6 +5,10 @@ export interface ITreeNode {
 }
 
 export interface ILeafNode {
-    label: string;
+    createdAt: Date;
+    createdBy: string;
+    description: string;
     id: string;
+    lastModifiedAt: Date;
+    lastModifiedBy: string;
 }

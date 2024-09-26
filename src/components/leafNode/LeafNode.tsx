@@ -9,7 +9,7 @@ export const LeafNode: React.FC<LeafNodeProps> = ({ leafNodeData }) => {
     return (
         <div>
             <h3>Additional Data</h3>
-            {leafNodeData.label}
+            <p> {leafNodeData.id}</p>
         </div>
     );
 };

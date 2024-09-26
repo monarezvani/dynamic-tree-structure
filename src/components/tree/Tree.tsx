@@ -1,4 +1,5 @@
 import React from "react";
+import { LeafNode } from "components/leafNode/LeafNode";
 import { Loading } from "components/loading/Loading";
 import { NotFound } from "components/notFound/NotFound";
 import { TreeNode } from "components/treeNode/TreeNode";
@@ -65,12 +66,7 @@ export const Tree = () => {
                         />
                     ))}
                     {isLeafNodeError && <NotFound />}
-                    {leafNodeData && (
-                        <div>
-                            <h3>Additional Data</h3>
-                            {leafNodeData.label}
-                        </div>
-                    )}
+                    {leafNodeData && <LeafNode leafNodeData={leafNodeData} />}
                 </>
             )}
         </>
