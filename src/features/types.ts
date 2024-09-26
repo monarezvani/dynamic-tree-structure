@@ -1,11 +1,13 @@
+import { ITreeNode } from "services/types";
+
 const root = document.documentElement;
 
-export interface ITheme {
+export interface Theme {
     foreground: string;
     background: string;
 }
 
-export const Themes: Record<string, ITheme> = {
+export const Themes: Record<string, Theme> = {
     light: {
         foreground: getComputedStyle(root).getPropertyValue("--light-foreground"),
         background: getComputedStyle(root).getPropertyValue("--light-background"),
@@ -20,3 +22,9 @@ export const DefaultTheme = {
     foreground: getComputedStyle(root).getPropertyValue("--light-foreground"),
     background: getComputedStyle(root).getPropertyValue("--light-background"),
 };
+
+export interface State {
+    tree: ITreeNode[];
+    theme: Theme;
+    highlightedTreeNode: ITreeNode | null;
+}

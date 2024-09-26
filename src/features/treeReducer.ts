@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { DefaultTheme, Themes } from "./types";
+import { DefaultTheme, State, Themes } from "./types";
 
-const initialState = {
+const initialState: State = {
     tree: [],
     theme: DefaultTheme,
+    highlightedTreeNode: null,
 };
 
 export const treeReducer = createSlice({
@@ -18,9 +19,12 @@ export const treeReducer = createSlice({
         setTree: (state, action) => {
             state.tree = action.payload;
         },
+        hightlightTreeNode: (state, action) => {
+            state.highlightedTreeNode = action.payload;
+        },
     },
 });
 
 export const treeData = (state: RootState) => state.dynamicTree.tree;
 export const currentTheme = (state: RootState) => state.dynamicTree.theme;
-export const { changeTheme, setTree } = treeReducer.actions;
+export const { changeTheme, setTree, hightlightTreeNode } = treeReducer.actions;

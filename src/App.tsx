@@ -1,7 +1,8 @@
-import React from "react";
+import { Tree } from "components/tree/Tree";
+import "./assets/global.css";
 
 function App() {
-    return <div></div>;
+    return <Tree />;
 }
 
 export default App;
