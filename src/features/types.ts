@@ -1,6 +1,25 @@
-import { ILeafNode, ITreeNode } from "services/types";
-
 const root = document.documentElement;
+
+export type TreeData = Array<Node | Leaf>;
+
+export interface Node {
+    label: string;
+    children: Array<Node | Leaf>;
+}
+
+export interface LeafInfo {
+    createdAt: Date;
+    createdBy: string;
+    description: string;
+    id: string;
+    lastModifiedAt: Date;
+    lastModifiedBy: string;
+}
+
+export interface Leaf {
+    id: string;
+    label: string;
+}
 
 export interface Theme {
     foreground: string;
@@ -24,9 +43,9 @@ export const DefaultTheme = {
 };
 
 export interface State {
-    tree: ITreeNode[];
+    tree: TreeData;
     theme: Theme;
-    highlightedTreeNode: ITreeNode | null;
-    leafData: ILeafNode | null;
+    highlightedTreeNode: Leaf | Node | null;
+    leafData: LeafInfo | null;
     leafDataStatus: "idle" | "loading" | "succeeded" | "failed";
 }

@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { apiSlice } from "../services/fetchTreeDataSlice";
+import { apiSlice } from "../services/fetchTreeData";
 import { treeReducer } from "./treeReducer";
 
 export const store = configureStore({
     reducer: {
         [apiSlice.reducerPath]: apiSlice.reducer, // The RTK Query API slice, responsible for handling API calls
+
         dynamicTree: treeReducer.reducer, // The treeReducer slice,  managing tree structure, theme, and highlighting
     },
     // Customizing the middleware to include the RTK Query middleware

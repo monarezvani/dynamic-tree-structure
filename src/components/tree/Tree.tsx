@@ -3,19 +3,14 @@ import { Loading } from "components/loading/Loading";
 import { NestedTreeNodes } from "components/nestedTreeNodes/NestedTreeNodes";
 import { NotFound } from "components/notFound/NotFound";
 import { useAppSelector } from "features/treeActions";
-import { useFetchTreeDataQuery } from "services/fetchTreeDataSlice";
+import { useFetchTreeDataQuery } from "services/fetchTreeData";
 import styles from "./Tree.module.css";
 
 export const Tree = () => {
-    // Fetch the tree data using RTK Query hook
-    const {
-        data: treeNodeData,
-        error: treeNodeError,
-        isLoading: isTreeNodeLoading,
-    } = useFetchTreeDataQuery();
+    const { error: treeNodeError, isLoading: isTreeNodeLoading } = useFetchTreeDataQuery();
 
-    //Get leaf data and leaf status from State
-    const { leafData, leafDataStatus } = useAppSelector(state => state.dynamicTree);
+    //Get states
+    const { leafData, leafDataStatus, tree } = useAppSelector(state => state.dynamicTree);
 
     if (treeNodeError) {
         throw new Error("Something went wrong! try again");
@@ -28,7 +23,7 @@ export const Tree = () => {
             ) : (
                 <div className={styles.container}>
                     <ul className={styles.treeContainer}>
-                        {treeNodeData?.map(node => <NestedTreeNodes node={node} />)}
+                        {tree?.map(node => <NestedTreeNodes node={node} key={node.label} />)}
                     </ul>
                     <div className={styles.additionalLeafInfoContainer}>
                         {leafDataStatus === "failed" ? (

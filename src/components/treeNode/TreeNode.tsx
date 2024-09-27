@@ -3,13 +3,14 @@ import { ReactComponent as FolderIcon } from "assets/icons/folder.svg";
 import clsx from "clsx";
 import { NestedTreeNodes } from "components/nestedTreeNodes/NestedTreeNodes";
 import { useAppDispatch, useAppSelector } from "features/treeActions";
-import { hightlightTreeNode } from "features/treeReducer";
-import { ITreeNode } from "services/types";
+import { hightlightTreeNode, moveNode } from "features/treeReducer";
+import { Node } from "features/types";
+import { isNode } from "utils/isNode";
 import { useIsNodeHighlighted } from "utils/isNodeHighlighted";
 import styles from "./TreeNode.module.css";
 
 interface TreeNodeProps {
-    node: ITreeNode; // The current tree node data
+    node: Node; // The current tree node data
 }
 
 // Functional component for rendering a tree node
@@ -20,7 +21,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
     const dispatch = useAppDispatch();
 
     // Handler for when a tree node is clicked
-    const handleNodeClick = (node: ITreeNode) => {
+    const handleNodeClick = (node: Node) => {
         // If the clicked node is already highlighted, unhighlight it (second click behavior)
 
         if (node === highlightedTreeNode) {
@@ -30,29 +31,48 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
         }
     };
 
+    //  This event is fired when the user starts dragging a node
+    const handleDragStart = (event: React.DragEvent, node: Node) => {
+        event.stopPropagation();
+        event.dataTransfer.setData("node", JSON.stringify(node));
+    };
+
+    //This event is fired when node is dropped on a target node
+    const handleDrop = (event: React.DragEvent, targetNode: Node) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const draggedNode = JSON.parse(event.dataTransfer.getData("node"));
+        dispatch(moveNode({ draggedNode, targetNode }));
+    };
+
     return (
-        <li key={node.id ?? node.label}>
+        <li
+            key={node.label}
+            draggable
+            onDragStart={event => handleDragStart(event, node)}
+            onDrop={event => handleDrop(event, node)}
+            onDragOver={event => event.preventDefault()}>
             <div
                 className={clsx(styles.treeNode, {
                     [styles.active]: isNodeHighlighted(node), // Apply "active" style if the node is highlighted
                     [styles.notActive]: !isNodeHighlighted(node),
                 })}
-                onClick={() => handleNodeClick(node)}>
-                {/*  Display a folder icon For Tree nodes */}
+                onClick={() => handleNodeClick(node)} // Highlight the node on click
+            >
                 <FolderIcon width={30} height={50} />
                 <p className={styles.treeNodeTitle}>{node.label}</p>
             </div>
             {/* If the node has children, render them as child TreeNode components with indentation */}
-            {node.children && (
-                <div style={{ marginLeft: 80 }}>
-                    {node.children.map(child => (
-                        <NestedTreeNodes
-                            key={child.id ?? child.label} // Ensure unique key for each child node
-                            node={child}
-                        />
-                    ))}
-                </div>
-            )}
+            {isNode(node) &&
+                node.children && ( // Only check children if it's a Node
+                    <div style={{ marginLeft: 80 }}>
+                        <ul>
+                            {node.children.map(child => (
+                                <NestedTreeNodes key={child.label} node={child} />
+                            ))}
+                        </ul>
+                    </div>
+                )}
         </li>
     );
 };
