@@ -1,16 +1,11 @@
-.treeNode {
+.leafNode {
     display: flex;
     align-items: center;
     cursor: pointer;
     margin: 0.5rem auto;
     padding-left: 1.5rem;
-    max-width: 60rem;
     font-size: 1rem;
-    line-height: 1.5;
-}
-
-.treeNodeTitle {
-    margin-left: 0.5rem;
+    line-height: 1.2;
 }
 
 .active {
@@ -21,3 +16,6 @@
     background-color: transparent;
 }
 
+.title {
+    margin-left: 0.5rem;
+}

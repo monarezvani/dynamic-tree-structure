@@ -1,73 +1,44 @@
-import React from "react";
-import { LeafNode } from "components/leafNode/LeafNode";
+import { AdditionalLeafInfo } from "components/additionalLeafData/AdditionalLeafInfo";
 import { Loading } from "components/loading/Loading";
+import { NestedTreeNodes } from "components/nestedTreeNodes/NestedTreeNodes";
 import { NotFound } from "components/notFound/NotFound";
-import { TreeNode } from "components/treeNode/TreeNode";
-import { useAppDispatch, useAppSelector } from "features/treeActions";
-import { hightlightTreeNode } from "features/treeReducer";
-import { useFetchTreeDataQuery, useLazyFetchEntryDataQuery } from "services/apiSlice";
-import { ITreeNode } from "services/types";
+import { useAppSelector } from "features/treeActions";
+import { useFetchTreeDataQuery } from "services/fetchTreeDataSlice";
+import styles from "./Tree.module.css";
 
 export const Tree = () => {
+    // Fetch the tree data using RTK Query hook
     const {
         data: treeNodeData,
         error: treeNodeError,
         isLoading: isTreeNodeLoading,
     } = useFetchTreeDataQuery();
 
-    const [
-        trigger,
-        { data: leafNodeData, isLoading: isLeafNodeLoading, isError: isLeafNodeError },
-    ] = useLazyFetchEntryDataQuery();
-
-    const { highlightedTreeNode } = useAppSelector(state => state.dynamicTree);
-    const dispatch = useAppDispatch();
+    //Get leaf data and leaf status from State
+    const { leafData, leafDataStatus } = useAppSelector(state => state.dynamicTree);
 
     if (treeNodeError) {
         throw new Error("Something went wrong! try again");
     }
 
-    const isNodeHighlighted = (node: ITreeNode): boolean => {
-        if (!highlightedTreeNode) return false;
-
-        const highlightCondition = (current: ITreeNode | undefined): boolean => {
-            //This checks if the current node or any of the current node's children match the condition using recursion.
-            return current === node || (current?.children?.some(highlightCondition) ?? false);
-        };
-
-        return highlightCondition(highlightedTreeNode);
-    };
-
-    console.log(highlightedTreeNode);
-    const handleNodeClick = (node: ITreeNode) => {
-        if (node === highlightedTreeNode) {
-            dispatch(hightlightTreeNode(null));
-        } else {
-            dispatch(hightlightTreeNode(node));
-        }
-
-        if (!node.children && node.id) {
-            trigger(node.id);
-        }
-    };
-
     return (
         <>
-            {isTreeNodeLoading || isLeafNodeLoading ? (
-                <Loading />
+            {isTreeNodeLoading || leafDataStatus === "loading" ? (
+                <Loading /> // Display loading spinner while fetching either tree or leaf node data
             ) : (
-                <>
-                    {treeNodeData?.map((node: any) => (
-                        <TreeNode
-                            onClick={handleNodeClick}
-                            key={node.id || node.label}
-                            node={node}
-                            isNodeHighlighted={isNodeHighlighted}
-                        />
-                    ))}
-                    {isLeafNodeError && <NotFound />}
-                    {leafNodeData && <LeafNode leafNodeData={leafNodeData} />}
-                </>
+                <div className={styles.container}>
+                    <ul className={styles.treeContainer}>
+                        {treeNodeData?.map(node => <NestedTreeNodes node={node} />)}
+                    </ul>
+                    <div className={styles.additionalLeafInfoContainer}>
+                        {leafDataStatus === "failed" ? (
+                            <NotFound /> // Show "NotFound" component if there's an error fetching the leaf node data
+                        ) : (
+                            // Display additional leaf data besides the Tree
+                            <>{leafData && <AdditionalLeafInfo />}</>
+                        )}
+                    </div>
+                </div>
             )}
         </>
     );

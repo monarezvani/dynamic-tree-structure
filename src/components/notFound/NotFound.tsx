@@ -14,7 +14,7 @@ export const NotFound = () => {
 
     return (
         <div>
-            <Lottie options={defaultOptions} height={400} width={800} />
+            <Lottie options={defaultOptions} />
         </div>
     );
 };
