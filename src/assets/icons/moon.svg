@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>moon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Flat---Filled" transform="translate(-301.000000, -351.000000)" fill="#000000">
+            <g id="moon" transform="translate(301.000000, 350.500000)">
+                <path d="M22.8535,16.6347 C22.6955,16.4757 22.4495,16.4437 22.2555,16.5517 C20.5815,17.4897 18.6825,17.9867 16.7675,17.9867 C10.5645,17.9867 5.5185,12.9407 5.5185,6.7377 C5.5185,4.8217 6.0145,2.9237 6.9535,1.2487 C7.0625,1.0537 7.0285,0.8097 6.8705,0.6517 C6.7105,0.4917 6.4655,0.4607 6.2725,0.5687 C2.4035,2.7377 -0.0005,6.8317 -0.0005,11.2557 C-0.0005,18.0097 5.4955,23.5047 12.2495,23.5047 C16.6725,23.5047 20.7675,21.1017 22.9365,17.2327 C23.0455,17.0367 23.0115,16.7927 22.8535,16.6347" id="Fill-200"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -8,14 +8,26 @@
     line-height: 1.2;
 }
 
-.active {
-    background-color: var(--highlight-node);
+.lightThemeHighlighted {
+    background-color: var(--light-highlight-node);
 }
 
-.notActive {
+.notHighlighted {
     background-color: transparent;
+}
+
+.darkThemeHighlighted {
+    background-color: var(--dark-highlighted-node);
 }
 
 .title {
     margin-left: 0.5rem;
+}
+
+.darkTitle {
+    color: var(--white);
+}
+
+.darkHightlightedTitle {
+    color: var(--black);
 }

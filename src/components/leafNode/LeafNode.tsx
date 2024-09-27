@@ -2,24 +2,25 @@ import React from "react";
 import { ReactComponent as FileIcon } from "assets/icons/file.svg";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "features/treeActions";
-import { hightlightTreeNode } from "features/treeReducer";
+import { hightlightTreeNode, moveNode } from "features/treeReducer";
+import { Leaf } from "features/types";
 import { fetchLeafData } from "services/fetchLeafData";
-import { ITreeNode } from "services/types";
 import { useIsNodeHighlighted } from "utils/isNodeHighlighted";
+import { useIsLightTheme } from "utils/useIsLightTheme";
 import styles from "./LeafNode.module.css";
 
 interface LeafNodeProps {
-    node: ITreeNode;
+    node: Leaf;
 }
 
 // Functional component to display additional details about a leaf node
 export const LeafNode: React.FC<LeafNodeProps> = ({ node }) => {
     const { highlightedTreeNode } = useAppSelector(state => state.dynamicTree);
+    const { isLightTheme } = useIsLightTheme();
     const dispatch = useAppDispatch();
-
     const { isNodeHighlighted } = useIsNodeHighlighted();
-
-    const handleLeafClick = (node: ITreeNode) => {
+    console.log(isNodeHighlighted, isLightTheme);
+    const handleLeafClick = (node: Leaf) => {
         // Handler for when a tree node is clicked
 
         // If the clicked node is already highlighted, unhighlight it (second click behavior)
@@ -36,18 +37,48 @@ export const LeafNode: React.FC<LeafNodeProps> = ({ node }) => {
         }
     };
 
+    //  This event is fired when the user starts dragging a leaf
+
+    const handleDragStart = (event: React.DragEvent, node: Leaf) => {
+        event.stopPropagation();
+        event.dataTransfer.setData("node", JSON.stringify(node)); // Only pass the current leaf
+    };
+
+    // This event is fired when leaf node is dropped on a target node
+
+    const handleDrop = (event: React.DragEvent, targetNode: Leaf) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const draggedNode = JSON.parse(event.dataTransfer.getData("node")) as Leaf;
+        dispatch(moveNode({ draggedNode, targetNode }));
+    };
+
     return (
-        <li key={node.id ?? node.label}>
+        <li
+            key={node.id}
+            draggable
+            onDrop={event => handleDrop(event, node)}
+            onDragStart={event => handleDragStart(event, node)}
+            onDragOver={event => event.preventDefault()} // Allow dropping
+        >
             <div
                 className={clsx(styles.leafNode, {
-                    [styles.active]: isNodeHighlighted(node), // Apply "active" style if the node is highlighted
-                    [styles.notActive]: !isNodeHighlighted(node),
+                    [styles.lightThemeHighlighted]: isNodeHighlighted(node) && isLightTheme,
+                    [styles.darkThemeHighlighted]: isNodeHighlighted(node) && !isLightTheme,
+                    [styles.notHighlighted]: !isNodeHighlighted(node),
                 })}
                 onClick={() => handleLeafClick(node)}>
-                {/*  Display a folder icon For Tree nodes */}
+                {/*  Display a file icon For Leaf nodes */}
                 <>
                     <FileIcon width={20} />
-                    <p className={styles.title}>{node.label}</p>
+                    <p
+                        className={clsx(styles.title, {
+                            [styles.darkTitle]: !isLightTheme && !isNodeHighlighted(node),
+                            [styles.darkHightlightedTitle]:
+                                !isLightTheme && isNodeHighlighted(node),
+                        })}>
+                        {node.label}
+                    </p>
                 </>
             </div>
         </li>

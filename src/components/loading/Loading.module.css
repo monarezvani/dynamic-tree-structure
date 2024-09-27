@@ -6,8 +6,8 @@
 }
 .Loading {
     animation: spin 1s linear infinite;
-    border: 5px solid var(--gray-400);
-    border-top-color: var(--gray-300);
+    border: 5px solid #cacaca;
+    border-top-color: #e1e1e1;
     border-radius: 50%;
     width: 3rem;
     height: 3rem;
@@ -27,8 +27,8 @@
     top: 5px;
     left: 5px;
     animation: spinInner 1s linear infinite;
-    border: 3px solid var(--gray-200);
-    border-top-color: var(--gray-300);
+    border: 3px solid var(spinner);
+    border-top-color: #e1e1e1;
     border-radius: 50%;
     width: 1.5rem;
     height: 1.5rem;

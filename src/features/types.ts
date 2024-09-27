@@ -1,5 +1,3 @@
-const root = document.documentElement;
-
 export type TreeData = Array<Node | Leaf>;
 
 export interface Node {
@@ -28,18 +26,18 @@ export interface Theme {
 
 export const Themes: Record<string, Theme> = {
     light: {
-        foreground: getComputedStyle(root).getPropertyValue("--light-gray"),
-        background: getComputedStyle(root).getPropertyValue("--white"),
+        foreground: "#333333",
+        background: "#ffffff",
     },
     dark: {
-        foreground: getComputedStyle(root).getPropertyValue("--white"),
-        background: getComputedStyle(root).getPropertyValue("--dark-gray"),
+        foreground: "#ffffff",
+        background: "#00000",
     },
 };
 
 export const DefaultTheme = {
-    foreground: getComputedStyle(root).getPropertyValue("--light-gray"),
-    background: getComputedStyle(root).getPropertyValue("--white"),
+    foreground: "#333333",
+    background: "#ffffff",
 };
 
 export interface State {

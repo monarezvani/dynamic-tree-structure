@@ -5,6 +5,7 @@
     margin: 0.5rem auto;
     padding-left: 1.5rem;
     max-width: 60rem;
+    color: var(--black);
     font-size: 1rem;
     line-height: 1.5;
 }
@@ -13,11 +14,22 @@
     margin-left: 0.5rem;
 }
 
-.active {
-    background-color: var(--highlight-node);
+.lightThemeactive {
+    background-color: var(--light-highlight-node);
 }
 
-.notActive {
+.notHighlighted {
     background-color: transparent;
 }
 
+.darkThemeHighlighted {
+    background-color: var(--dark-highlighted-node);
+}
+
+.darkTitle {
+    color: var(--white);
+}
+
+.darkHightlightedTitle {
+    color: var(--black);
+}

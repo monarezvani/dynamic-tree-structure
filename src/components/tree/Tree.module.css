@@ -7,9 +7,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    box-shadow: 0 0.2rem 0.8rem 0 rgba(0, 0, 0, 0.12);
     border-radius: 1rem;
-    background-color: var(--gray-50);
 }
 
 .additionalLeafInfoContainer {
@@ -17,4 +15,16 @@
     flex: 2;
     flex-direction: column;
     align-items: center;
+}
+
+.lightTreeTheme {
+    box-shadow: 0 0.2rem 0.8rem 0 var(--box-shadow);
+    background-color: var(--light-tree-background);
+    color: var(--black);
+}
+
+.darkTreeTheme {
+    border-radius: 0;
+    background-color: var(--dark-tree-background);
+    color: var(--white);
 }

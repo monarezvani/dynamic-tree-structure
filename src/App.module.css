@@ -1,0 +1,11 @@
+.navbar {
+    padding: 1.5rem;
+}
+
+.lightNav {
+    background-color: var(--white);
+}
+
+.darkNav {
+    background-color: var(--dark-tree-background);
+}

@@ -18,7 +18,7 @@ export const treeReducer = createSlice({
     initialState,
     reducers: {
         // Reducer to toggle between light and dark themes
-        changeTheme: state => {
+        toggleTheme: state => {
             state.theme =
                 state.theme.background === Themes.light.background ? Themes.dark : Themes.light;
         },
@@ -78,5 +78,5 @@ export const treeReducer = createSlice({
 // Selector to get the tree data from the Redux state
 export const state = (state: RootState) => state.dynamicTree;
 
-export const { changeTheme, hightlightTreeNode, setLeafData, setTree, moveNode } =
+export const { toggleTheme, hightlightTreeNode, setLeafData, setTree, moveNode } =
     treeReducer.actions;
