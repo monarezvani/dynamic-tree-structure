@@ -2,7 +2,7 @@ export type TreeData = Array<Node | Leaf>;
 
 export interface Node {
     label: string;
-    children: Array<Node | Leaf>;
+    children: (Node | Leaf)[];
 }
 
 export interface LeafInfo {
@@ -41,7 +41,6 @@ export const DefaultTheme = {
 };
 
 export interface State {
-    tree: TreeData;
     theme: Theme;
     highlightedTreeNode: Leaf | Node | null;
     leafData: LeafInfo | null;

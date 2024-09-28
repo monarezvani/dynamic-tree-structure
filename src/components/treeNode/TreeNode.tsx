@@ -3,8 +3,9 @@ import { ReactComponent as FolderIcon } from "assets/icons/folder.svg";
 import clsx from "clsx";
 import { NestedTreeNodes } from "components/nestedTreeNodes/NestedTreeNodes";
 import { useAppDispatch, useAppSelector } from "features/treeActions";
-import { hightlightTreeNode, moveNode } from "features/treeReducer";
+import { highlightTreeNode } from "features/treeReducer";
 import { Node } from "features/types";
+import { moveNode } from "utils/dragUtils";
 import { isNode } from "utils/isNode";
 import { useIsNodeHighlighted } from "utils/isNodeHighlighted";
 import { useIsLightTheme } from "utils/useIsLightTheme";
@@ -27,9 +28,9 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
         // If the clicked node is already highlighted, unhighlight it (second click behavior)
 
         if (node === highlightedTreeNode) {
-            dispatch(hightlightTreeNode(null));
+            dispatch(highlightTreeNode(null));
         } else {
-            dispatch(hightlightTreeNode(node)); // Highlight the clicked node
+            dispatch(highlightTreeNode(node));
         }
     };
 
@@ -44,7 +45,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
         event.preventDefault();
         event.stopPropagation();
         const draggedNode = JSON.parse(event.dataTransfer.getData("node"));
-        dispatch(moveNode({ draggedNode, targetNode }));
+        moveNode(dispatch, draggedNode, targetNode);
     };
 
     return (
@@ -55,8 +56,9 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
             onDrop={event => handleDrop(event, node)}
             onDragOver={event => event.preventDefault()}>
             <div
+                data-testid={`tree-node-${node.label}`}
                 className={clsx(styles.treeNode, {
-                    [styles.lightThemeactive]: isNodeHighlighted(node) && isLightTheme,
+                    [styles.lightThemeHighlighted]: isNodeHighlighted(node) && isLightTheme,
                     [styles.darkThemeHighlighted]: isNodeHighlighted(node) && !isLightTheme,
                     [styles.notHighlighted]: !isNodeHighlighted(node),
                 })}
@@ -66,7 +68,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
                 <p
                     className={clsx(styles.treeNodeTitle, {
                         [styles.darkTitle]: !isLightTheme && !isNodeHighlighted(node),
-                        [styles.darkHightlightedTitle]: !isLightTheme && isNodeHighlighted(node),
+                        [styles.darkHighlightedTitle]: !isLightTheme && isNodeHighlighted(node),
                     })}>
                     {node.label}
                 </p>

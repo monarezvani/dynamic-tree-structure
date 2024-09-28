@@ -2,9 +2,10 @@ import React from "react";
 import { ReactComponent as FileIcon } from "assets/icons/file.svg";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "features/treeActions";
-import { hightlightTreeNode, moveNode } from "features/treeReducer";
+import { highlightTreeNode } from "features/treeReducer";
 import { Leaf } from "features/types";
 import { fetchLeafData } from "services/fetchLeafData";
+import { moveNode } from "utils/dragUtils";
 import { useIsNodeHighlighted } from "utils/isNodeHighlighted";
 import { useIsLightTheme } from "utils/useIsLightTheme";
 import styles from "./LeafNode.module.css";
@@ -19,16 +20,16 @@ export const LeafNode: React.FC<LeafNodeProps> = ({ node }) => {
     const { isLightTheme } = useIsLightTheme();
     const dispatch = useAppDispatch();
     const { isNodeHighlighted } = useIsNodeHighlighted();
-    console.log(isNodeHighlighted, isLightTheme);
+
     const handleLeafClick = (node: Leaf) => {
         // Handler for when a tree node is clicked
 
         // If the clicked node is already highlighted, unhighlight it (second click behavior)
 
         if (node === highlightedTreeNode) {
-            dispatch(hightlightTreeNode(null));
+            dispatch(highlightTreeNode(null));
         } else {
-            dispatch(hightlightTreeNode(node)); // Highlight the clicked node
+            dispatch(highlightTreeNode(node)); // Highlight the clicked node
         }
 
         // If the node has no children and has an ID, fetch its leaf data
@@ -50,7 +51,7 @@ export const LeafNode: React.FC<LeafNodeProps> = ({ node }) => {
         event.preventDefault();
         event.stopPropagation();
         const draggedNode = JSON.parse(event.dataTransfer.getData("node")) as Leaf;
-        dispatch(moveNode({ draggedNode, targetNode }));
+        moveNode(dispatch, draggedNode, targetNode);
     };
 
     return (
@@ -74,8 +75,7 @@ export const LeafNode: React.FC<LeafNodeProps> = ({ node }) => {
                     <p
                         className={clsx(styles.title, {
                             [styles.darkTitle]: !isLightTheme && !isNodeHighlighted(node),
-                            [styles.darkHightlightedTitle]:
-                                !isLightTheme && isNodeHighlighted(node),
+                            [styles.darkHighlightedTitle]: !isLightTheme && isNodeHighlighted(node),
                         })}>
                         {node.label}
                     </p>

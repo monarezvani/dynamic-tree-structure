@@ -14,7 +14,7 @@
     margin-left: 0.5rem;
 }
 
-.lightThemeactive {
+.lightThemeHighlighted {
     background-color: var(--light-highlight-node);
 }
 
@@ -30,6 +30,6 @@
     color: var(--white);
 }
 
-.darkHightlightedTitle {
+.darkHighlightedTitle {
     color: var(--black);
 }

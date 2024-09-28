@@ -9,6 +9,5 @@
     "arrowParens": "avoid",
     "importOrder": ["^react$", "^[^.@].*", "^@(.*)$", "^[./]"],
     "importOrderSeparation": false,
-    "importOrderSortSpecifiers": true,
-    "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-css-order"]
+    "importOrderSortSpecifiers": true
 }

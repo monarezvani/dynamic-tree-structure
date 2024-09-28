@@ -1,4 +1,3 @@
-import { setTree } from "features/treeReducer";
 import { TreeData } from "features/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -12,16 +11,8 @@ export const apiSlice = createApi({
         // Fetch the entire tree data structure
         fetchTreeData: builder.query<TreeData, void>({
             query: () => "/frontend-tha/data.json",
-            //when query is started, set tree data into state
-
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled; // Wait for the query to be fulfilled
-                    dispatch(setTree(data)); // Dispatch the action to set tree data in the store
-                } catch (err) {
-                    console.error("Failed to fetch tree data", err);
-                }
-            },
+            // Keep cache for one day so it will not fetch data on every re-render
+            keepUnusedDataFor: 24 * 3600,
         }),
     }),
 });
