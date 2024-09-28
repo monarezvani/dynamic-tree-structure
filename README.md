@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# Tree-Structure Management App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a dynamic tree-structure management application built using React, Redux Toolkit, and RTK Query. It enables users to interact with a hierarchical tree structure, including the ability to drag and drop both nodes and leaves. The app efficiently manages state using Redux Toolkit and optimistically updates the tree using RTK Query, ensuring a seamless user experience.
 
-## Available Scripts
+## Key Features
+- Drag-and-Drop Functionality: Move nodes and leaves within the tree by dragging and dropping.
+- Dynamic Tree Rendering: Render trees dynamically with efficient state updates.
+- Optimistic UI Updates: Mutate the cache directly using RTK Query for responsive UI updates.
+- Persistent State: Cache updates after 24 hours.
+- Toggling dark and light theme
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+Tech Stack
+- React: Frontend framework.
+- Redux Toolkit: State management and slices.
+- RTK Query: Data fetching, caching, and synchronization.
+- TypeScript: Static type checking.
+- Jest & React Testing Library: For unit testing and integration tests.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project Structure
+```plaintext
+.
+├── src
+│   ├── assets               # Static assets like icons
+│   ├── components           # React components
+│   ├── features             # Redux slices and state management
+│   │   ├── treeReducer.ts   # Redux slice for tree management
+│   ├── services             # API services and RTK Query logic
+│   │   └── fetchTreeData.ts # RTK Query API slice for tree data
+│   ├── utils                # Utility functions like drag-and-drop helpers
+│   └── App.tsx              # Main application component
+├── public                   # Static assets like HTML, favicon, etc.
+└── package.json             # Project dependencies and scripts
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+````
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Usage 
+- Drag-and-Drop Tree Nodes: Drag a node or leaf by clicking and holding. Drop it onto another node to move it within the tree (all its children will move to target tree node).
+- The state of the tree is updated optimistically using RTK Query.
+- Node Highlighting: Click on any node to highlight it and Clicking the node again will unhighlight it.
+- State Synchronization
